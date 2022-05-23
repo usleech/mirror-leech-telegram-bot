@@ -53,6 +53,7 @@ except:
     SERVER_PORT = 80
 
 PORT = environ.get('PORT', SERVER_PORT)
+PWD = environ.get('PWD')
 alive = Popen(["python3", "alive.py"])
 Popen([f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT}"], shell=True)
 srun(["qbittorrent-nox", "-d", "--profile=."])
@@ -60,8 +61,8 @@ if not ospath.exists('.netrc'):
     srun(["touch", ".netrc"])
 srun(["cp", ".netrc", "/root/.netrc"])
 srun(["chmod", "600", ".netrc"])
-srun(["chmod", "+x", "aria.sh"])
-srun(["./aria.sh"], shell=True)
+srun(["chmod", "+x", f"{PWD}/aria.sh"])
+srun([f"{PWD}/aria.sh"], shell=True)
 
 Interval = []
 DRIVES_NAMES = []
